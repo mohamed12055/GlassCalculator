@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>حاسبة الزجاج | BDAWY</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <header class="header">
+
+            <div class="brand">
+                <h2>BDAWY</h2>
+                <p>01285663869</p>
+            </div>
+
+            <h1>🪟 حاسبة الزجاج</h1>
+
+            <p>احسب السعر والمساحة بسهولة</p>
+
+        </header>
+
+
+        <section class="calculator">
+
+            <div class="field">
+                <label for="operation">نوع العملية</label>
+
+                <select id="operation">
+                    <option value="subtract">طرح</option>
+                    <option value="add">جمع</option>
+                    <option value="multiply">حاسبة السعر</option>
+                    <option value="divide">قسمة</option>
+                </select>
+            </div>
+
+
+            <!-- العمليات العادية -->
+
+            <div id="normalMode">
+
+                <div class="field">
+                    <label for="numberInput">الرقم الأساسي</label>
+
+                    <input
+                        id="numberInput"
+                        type="number"
+                        inputmode="decimal"
+                        step="any"
+                        placeholder="اكتب الرقم"
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="constantInput">الرقم الثابت</label>
+
+                    <input
+                        id="constantInput"
+                        type="number"
+                        inputmode="decimal"
+                        step="any"
+                        value="1.6"
+                    >
+                </div>
+
+            </div>
+
+
+            <!-- حاسبة الزجاج -->
+
+            <div id="glassMode" class="hidden">
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label for="lengthInput">
+                            الطول (سم)
+                        </label>
+
+                        <input
+                            id="lengthInput"
+                            type="number"
+                            inputmode="decimal"
+                            step="any"
+                            min="0"
+                            placeholder="مثال: 200"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="widthInput">
+                            العرض (سم)
+                        </label>
+
+                        <input
+                            id="widthInput"
+                            type="number"
+                            inputmode="decimal"
+                            step="any"
+                            min="0"
+                            placeholder="مثال: 100"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label for="piecesInput">
+                            عدد القطع
+                        </label>
+
+                        <input
+                            id="piecesInput"
+                            type="number"
+                            inputmode="numeric"
+                            step="1"
+                            min="1"
+                            placeholder="مثال: 3"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="priceInput">
+                            السعر للمتر المربع
+                        </label>
+
+                        <input
+                            id="priceInput"
+                            type="number"
+                            inputmode="decimal"
+                            step="any"
+                            min="0"
+                            placeholder="مثال: 500"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- النتيجة -->
+
+            <div class="result-box">
+
+                <span>الإجمالي</span>
+
+                <strong id="result">—</strong>
+
+                <p id="formula">
+                    اكتب البيانات للبدء
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="./app.js"></script>
+
+</body>
+
+</html>
