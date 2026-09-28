@@ -1,6 +1,10 @@
 "use strict";
 
 
+/* =========================
+   عناصر الحاسبة
+========================= */
+
 const operation =
     document.getElementById("operation");
 
@@ -35,6 +39,33 @@ const formula =
     document.getElementById("formula");
 
 
+/* =========================
+   عناصر الحافظة
+========================= */
+
+const clipboardToggle =
+    document.getElementById("clipboardToggle");
+
+const clipboardPanel =
+    document.getElementById("clipboardPanel");
+
+const clipboardClose =
+    document.getElementById("clipboardClose");
+
+const saveCalculationBtn =
+    document.getElementById("saveCalculationBtn");
+
+const noteInput =
+    document.getElementById("noteInput");
+
+const savedCalculations =
+    document.getElementById("savedCalculations");
+
+
+/* =========================
+   تنسيق الأرقام
+========================= */
+
 function formatNumber(number) {
 
     if (!Number.isFinite(number)) {
@@ -49,7 +80,9 @@ function formatNumber(number) {
 }
 
 
-/* تغيير نوع العملية */
+/* =========================
+   تغيير نوع العملية
+========================= */
 
 function updateMode() {
 
@@ -72,7 +105,10 @@ function updateMode() {
 }
 
 
-/* حاسبة الزجاج */
+/* =========================
+   حاسبة السعر
+   لا علاقة لها بالحافظة
+========================= */
 
 function calculateGlass() {
 
@@ -164,7 +200,9 @@ function calculateGlass() {
 }
 
 
-/* العمليات العادية */
+/* =========================
+   العمليات العادية
+========================= */
 
 function calculateNormal() {
 
@@ -207,19 +245,33 @@ function calculateNormal() {
     let symbol;
 
 
+    /* الطرح */
+
     if (operation.value === "subtract") {
 
-        answer = number - constant;
+        answer =
+            number - constant;
 
-        symbol = "−";
+        symbol =
+            "−";
+    }
 
-    } else if (operation.value === "add") {
 
-        answer = number + constant;
+    /* الجمع */
 
-        symbol = "+";
+    else if (operation.value === "add") {
 
-    } else if (operation.value === "divide") {
+        answer =
+            number + constant;
+
+        symbol =
+            "+";
+    }
+
+
+    /* القسمة */
+
+    else if (operation.value === "divide") {
 
         if (constant === 0) {
 
@@ -232,9 +284,11 @@ function calculateNormal() {
             return;
         }
 
-        answer = number / constant;
+        answer =
+            number / constant;
 
-        symbol = "÷";
+        symbol =
+            "÷";
     }
 
 
@@ -249,37 +303,288 @@ function calculateNormal() {
 }
 
 
-/* الأحداث */
+/* =========================
+   الحافظة المستقلة
+========================= */
+
+function getSavedNotes() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "bdawyGlassNotes"
+            )
+        ) || [];
+
+    } catch {
+
+        return [];
+    }
+}
+
+
+/* =========================
+   حماية النص المكتوب
+========================= */
+
+function escapeHtml(text) {
+
+    return text.replace(
+        /[&<>"']/g,
+        character => {
+
+            const entities = {
+
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+
+            };
+
+            return entities[character];
+        }
+    );
+}
+
+
+/* =========================
+   حفظ الملاحظة
+========================= */
+
+function saveNote() {
+
+    const text =
+        noteInput.value.trim();
+
+
+    if (!text) {
+
+        alert(
+            "اكتب ملاحظة أولًا"
+        );
+
+        return;
+    }
+
+
+    const notes =
+        getSavedNotes();
+
+
+    const note = {
+
+        id: Date.now(),
+
+        text: text
+    };
+
+
+    notes.unshift(note);
+
+
+    localStorage.setItem(
+        "bdawyGlassNotes",
+        JSON.stringify(notes)
+    );
+
+
+    noteInput.value = "";
+
+
+    renderSavedNotes();
+
+
+    alert(
+        "تم حفظ الملاحظة بنجاح ✅"
+    );
+}
+
+
+/* =========================
+   حذف ملاحظة
+========================= */
+
+function deleteNote(id) {
+
+    const notes =
+        getSavedNotes().filter(
+            note => note.id !== id
+        );
+
+
+    localStorage.setItem(
+        "bdawyGlassNotes",
+        JSON.stringify(notes)
+    );
+
+
+    renderSavedNotes();
+}
+
+
+/* =========================
+   عرض الملاحظات
+========================= */
+
+function renderSavedNotes() {
+
+    const notes =
+        getSavedNotes();
+
+
+    if (notes.length === 0) {
+
+        savedCalculations.innerHTML = `
+            <p class="empty-saved">
+                لا توجد ملاحظات محفوظة
+            </p>
+        `;
+
+        return;
+    }
+
+
+    savedCalculations.innerHTML =
+        notes.map(note => `
+
+            <div class="saved-card">
+
+                <div class="saved-card-header">
+
+                    <strong>
+                        ${escapeHtml(note.text)}
+                    </strong>
+
+                    <button
+                        type="button"
+                        class="delete-saved"
+                        data-id="${note.id}"
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+
+    document
+        .querySelectorAll(".delete-saved")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    deleteNote(
+                        Number(
+                            button.dataset.id
+                        )
+                    );
+
+                }
+            );
+
+        });
+}
+
+
+/* =========================
+   فتح الحافظة
+========================= */
+
+clipboardToggle.addEventListener(
+    "click",
+    () => {
+
+        clipboardPanel.classList.add(
+            "open"
+        );
+
+        clipboardPanel.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+);
+
+
+/* =========================
+   إغلاق الحافظة
+========================= */
+
+clipboardClose.addEventListener(
+    "click",
+    () => {
+
+        clipboardPanel.classList.remove(
+            "open"
+        );
+
+        clipboardPanel.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+    }
+);
+
+
+/* =========================
+   زر حفظ الملاحظة
+========================= */
+
+saveCalculationBtn.addEventListener(
+    "click",
+    saveNote
+);
+
+
+/* =========================
+   أحداث الحاسبة
+========================= */
 
 operation.addEventListener(
     "change",
     updateMode
 );
 
+
 numberInput.addEventListener(
     "input",
     calculateNormal
 );
+
 
 constantInput.addEventListener(
     "input",
     calculateNormal
 );
 
+
 lengthInput.addEventListener(
     "input",
     calculateGlass
 );
+
 
 widthInput.addEventListener(
     "input",
     calculateGlass
 );
 
+
 piecesInput.addEventListener(
     "input",
     calculateGlass
 );
+
 
 priceInput.addEventListener(
     "input",
@@ -287,6 +592,19 @@ priceInput.addEventListener(
 );
 
 
-/* التشغيل */
+/* =========================
+   تشغيل الحاسبة والحافظة
+========================= */
 
 updateMode();
+
+renderSavedNotes();
+
+
+/* =========================
+   اختبار
+========================= */
+
+console.log(
+    "BDAWY TEST - app.js يعمل"
+);
