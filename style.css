@@ -1,0 +1,687 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #070b14;
+    --card: #111827;
+    --input: #1b2638;
+    --border: rgba(255, 255, 255, 0.1);
+    --text: #ffffff;
+    --muted: #9ca3af;
+    --accent: #4f8cff;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #172554,
+            #070b14 55%
+        );
+
+    color: var(--text);
+}
+
+.app {
+    width: min(100%, 650px);
+    margin: auto;
+    padding: 25px 18px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    color: var(--muted);
+}
+
+.calculator {
+    background: rgba(17, 24, 39, 0.96);
+
+    border: 1px solid var(--border);
+
+    border-radius: 24px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.field {
+    margin-bottom: 18px;
+    flex: 1;
+}
+
+.field label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+
+    height: 54px;
+
+    padding: 0 15px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: var(--input);
+
+    color: var(--text);
+
+    font-size: 17px;
+
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 0 3px rgba(79, 140, 255, 0.12);
+}
+
+.row {
+    display: flex;
+    gap: 12px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.result-box {
+    margin-top: 10px;
+
+    padding: 25px 18px;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(79, 140, 255, 0.18),
+            rgba(17, 24, 39, 0.8)
+        );
+
+    border: 1px solid rgba(79, 140, 255, 0.25);
+}
+
+.result-box span {
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+.result-box strong {
+    display: block;
+
+    margin: 10px 0;
+
+    font-size: clamp(35px, 9vw, 58px);
+
+    line-height: 1.1;
+
+    overflow-wrap: anywhere;
+}
+
+.result-box p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+footer {
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+@media (max-width: 520px) {
+
+    .app {
+        padding: 15px 12px;
+    }
+
+    .calculator {
+        padding: 17px;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .header h1 {
+        font-size: 27px;
+    }
+}
+
+/* BDAWY */
+
+.brand {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.brand h2 {
+    margin: 0;
+
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 3px;
+
+    color: #4f8cff;
+}
+
+.brand p {
+    margin: 5px 0 0;
+
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    direction: ltr;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 25px;
+
+    color: #9ca3af;
+
+    font-size: 14px;
+}
+
+footer strong {
+    color: #4f8cff;
+
+    font-size: 20px;
+
+    letter-spacing: 2px;
+}
+
+footer span {
+    direction: ltr;
+
+    color: #ffffff;
+
+    font-weight: bold;
+}
+
+footer small {
+    color: #9ca3af;
+}
+
+
+
+
+/* =========================
+   الحافظة
+========================= */
+
+.saved-section {
+    margin-top: 25px;
+    padding: 18px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.saved-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.saved-header h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+#saveCalculationBtn {
+    border: none;
+    border-radius: 12px;
+    padding: 11px 15px;
+    background: #4f8cff;
+    color: #ffffff;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+#saveCalculationBtn:active {
+    transform: scale(0.97);
+}
+
+#noteInput {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    min-height: 85px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.18);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+}
+
+#noteInput::placeholder {
+    color: #9ca3af;
+}
+
+.saved-calculations {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.empty-saved {
+    margin: 0;
+    text-align: center;
+    color: #9ca3af;
+    padding: 15px;
+}
+
+.saved-card {
+    padding: 15px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.saved-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.saved-card-header strong {
+    color: #4f8cff;
+    font-size: 18px;
+}
+
+.delete-saved {
+    border: none;
+    background: transparent;
+    color: #ff6b6b;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.saved-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.saved-details span {
+    padding: 8px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.15);
+    color: #e5e7eb;
+    font-size: 13px;
+}
+
+.saved-note {
+    margin: 12px 0 0;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(79, 140, 255, 0.08);
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.saved-date {
+    display: block;
+    margin-top: 10px;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+@media (max-width: 500px) {
+
+    .saved-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #saveCalculationBtn {
+        width: 100%;
+    }
+
+    .saved-details {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+/* =========================
+   زر ولوحة الحافظة الجانبية
+========================= */
+
+.clipboard-toggle {
+    position: fixed;
+    top: 50%;
+    right: 0;
+
+    transform: translateY(-50%);
+
+    width: 46px;
+    height: 52px;
+
+    border: none;
+    border-radius: 14px 0 0 14px;
+
+    background: #4f8cff;
+    color: #ffffff;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    z-index: 1000;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+}
+
+
+.clipboard-toggle:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+
+/* لوحة الحافظة */
+
+.clipboard-panel {
+    position: fixed;
+
+    top: 0;
+    right: 0;
+
+    width: min(360px, 90vw);
+    height: 100vh;
+
+    box-sizing: border-box;
+
+    padding: 20px;
+
+    background: #111827;
+
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+
+    z-index: 999;
+
+    overflow-y: auto;
+
+    transform: translateX(100%);
+
+    transition: transform 0.3s ease;
+
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+}
+
+
+.clipboard-panel.open {
+    transform: translateX(0);
+}
+
+
+.clipboard-panel-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+
+.clipboard-panel-header h2 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 22px;
+}
+
+
+#clipboardClose {
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+.save-calculation-btn {
+    width: 100%;
+
+    margin-top: 12px;
+
+    padding: 13px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #4f8cff;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+
+.save-calculation-btn:active {
+    transform: scale(0.98);
+}
+
+
+/* العمليات المحفوظة */
+
+.saved-calculations {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+
+.empty-saved {
+    margin: 0;
+
+    padding: 20px 10px;
+
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 14px;
+}
+
+
+.saved-card {
+    padding: 14px;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.saved-card-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+
+.saved-card-header strong {
+    color: #4f8cff;
+
+    font-size: 17px;
+}
+
+
+.delete-saved {
+    border: none;
+
+    background: transparent;
+
+    color: #ff6b6b;
+
+    font-size: 18px;
+
+    cursor: pointer;
+}
+
+
+.saved-details {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 7px;
+
+    margin-top: 12px;
+}
+
+
+.saved-details span {
+    padding: 8px;
+
+    border-radius: 9px;
+
+    background: rgba(0, 0, 0, 0.18);
+
+    color: #e5e7eb;
+
+    font-size: 12px;
+}
+
+
+.saved-note {
+    margin: 10px 0 0;
+
+    padding: 9px;
+
+    border-radius: 9px;
+
+    background: rgba(79, 140, 255, 0.08);
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+.saved-date {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+}
+
+
+@media (max-width: 500px) {
+
+    .clipboard-toggle {
+        width: 42px;
+        height: 48px;
+
+        font-size: 20px;
+    }
+
+    .clipboard-panel {
+        width: 88vw;
+    }
+
+    .saved-details {
+        grid-template-columns: 1fr;
+    }
+
+}
